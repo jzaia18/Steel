@@ -18,8 +18,8 @@ class Ball {
   Ball(int Diameter) {
     this();
     diameter = Diameter;
-    x = random(width - diameter) + diameter/2;
-    y = random(height - diameter) + diameter/2;
+    x = random(width/2 - diameter) + diameter/2;
+    y = random(height/2 - diameter) + diameter/2;
   }
   
   Ball(float Mx, float My) {

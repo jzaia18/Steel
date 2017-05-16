@@ -2,11 +2,14 @@ ArrayList<Ball> balls;
 
 void setup(){
   size(1024,720);
-  frameRate(120);
+  frameRate(30);
   noStroke();
   balls = new ArrayList<Ball>();
-  for (int i = 0; i < 50; i++) {
-    balls.add(new Bouncer((int)random(25) + 25));    
+  for (int i = 0; i < 300; i++) {
+    balls.add(new Bouncer(25));//Bouncer(25));
+    //balls.add(new Bouncer(75));
+    //balls.add(new Planet(125));
+  //balls.add(new Bouncer(100));//Bouncer(25));    
   }
 }
 
