@@ -39,11 +39,11 @@ class Bouncer extends Ball {
     y += dy;
     bounce();
   }
-  
+/*
   void bounce(Ball B) {
     
   }
-  
+*/
   boolean collide(Ball B) {
     return dist(this.x, this.y, B.x, B.y) > 0 && !(B instanceof Explosion) && dist(this.x, this.y, B.x, B.y) <= minDist(B);
   }
@@ -53,29 +53,32 @@ class Bouncer extends Ball {
   }
   
   void frame() {
-    display();
     move();
   }
   
   boolean frame(ArrayList<Ball> others) {
+    display();
     for(int i = 0; i < others.size(); i++) {
       if(collide(others.get(i))) {
         Bouncer b = (Bouncer)others.get(i);
         //correct offset (clump correction)
-        float offset = minDist(b) - dist(this.x, this.y, b.x, b.y);
-        float X = (b.x - this.x)/abs(b.x - this.x);
-        float Y = (b.y - this.y)/abs(b.y - this.y);
-        this.x -= X*offset/3;
-        this.y -= Y*offset/3;
-        others.get(i).x += X*offset/3;
-        others.get(i).y += Y*offset/3;
+        float offset = (minDist(b) - dist(this.x, this.y, b.x, b.y))/2;
+        float X = b.x - this.x;
+        float Y = b.y - this.y;
+        float D = sqrt(X*X + Y*Y);
+        this.x -= offset*X/D;
+        this.y -= offset*Y/D;
+        others.get(i).x += offset*X/D;
+        others.get(i).y += offset*Y/D;
         //change velocities
         float tx = this.dx;
         float ty = this.dy;
-        this.dx = pow(b.radius()/this.radius(),2)*b.dx;
-        this.dy = pow(b.radius()/this.radius(),2)*b.dy;
-        ((Bouncer)others.get(i)).dx = pow(this.radius()/b.radius(),2)*tx;
-        ((Bouncer)others.get(i)).dy = pow(this.radius()/b.radius(),2)*ty;
+        //float mt = pow(this.radius(),2);
+        //float mb = pow(b.radius(),2);
+        this.dx = (.99)*pow(b.radius()/this.radius(),2)*b.dx; //(tx*(mt-mb) + 2*mb*b.dx)/(mt+mb);
+        this.dy = (.99)*pow(b.radius()/this.radius(),2)*b.dy; //(ty*(mt-mb) + 2*mb*b.dy)/(mt+mb);
+        ((Bouncer)others.get(i)).dx = (.99)*pow(this.radius()/b.radius(),2)*tx; //(b.dx*(mb-mt) + 2*mb*tx)/(mt+mb)
+        ((Bouncer)others.get(i)).dy = (.99)*pow(this.radius()/b.radius(),2)*ty;//(b.dy*(mb-mt) + 2*mb*ty)/(mt+mb);
         
       }
     }

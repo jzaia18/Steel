@@ -2,10 +2,10 @@ ArrayList<Ball> balls;
 
 void setup(){
   size(1024,720);
-  frameRate(40);
+  frameRate(120);
   noStroke();
   balls = new ArrayList<Ball>();
-  for (int i = 0; i < (int)random(20)+20; i++) {
+  for (int i = 0; i < 50; i++) {
     balls.add(new Bouncer((int)random(25) + 25));    
   }
 }
